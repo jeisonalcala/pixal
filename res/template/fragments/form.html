@@ -1,0 +1,108 @@
+{{define "form"}}
+	{{.PreFormHTML}}
+	<form class="highlight_border" method="POST">
+		{{if eq .Submitted true}}
+			{{if eq .SubmitSuccess true}}
+				<div id="submit_result" class="highlight_green">
+					{{index .SubmitMessages 0}}
+				</div>
+			{{else}}
+				<div id="submit_result" class="highlight_red">
+					<ul>
+						{{range $msg := .SubmitMessages}}
+							<li>{{$msg}}</li>
+						{{end}}
+					</ul>
+				</div>
+			{{end}}
+		{{end}}
+		<input type="text" name="form" value="{{.Name}}" style="display: none;" readonly="readonly"/>
+		{{if ne .Username ""}}
+			<!-- The invisible username field is so browsers know which user the form was for -->
+			<input type="text" autocomplete="username" value="{{.Username}}" style="display: none;" readonly="readonly"/>
+		{{end}}
+		<div class="form">
+			{{range $field := .Fields}}
+				<label for="input_{{$field.Name}}">
+					{{$field.Label}}
+				</label>
+				{{if eq $field.Type "text"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="text" class="form_input"/>
+				{{else if eq $field.Type "number"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="number" class="form_input"/>
+				{{else if eq $field.Type "username"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="text" autocomplete="username" class="form_input"/>
+				{{else if eq $field.Type "email"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="email" autocomplete="email" class="form_input"/>
+				{{else if eq $field.Type "current-password"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="password" autocomplete="current-password" class="form_input"/>
+				{{else if eq $field.Type "new-password"}}
+					<input id="input_{{$field.Name}}" name="{{$field.Name}}" value="{{$field.DefaultValue}}" type="password" autocomplete="new-password" class="form_input"/>
+				{{else if eq $field.Type "textarea"}}
+					<textarea id="input_{{$field.Name}}" name="{{$field.Name}}" class="form_input" style="width: 100%; height: 10em; resize: vertical;">{{$field.DefaultValue}}</textarea>
+				{{else if eq $field.Type "captcha"}}
+					<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+					<div class="g-recaptcha" data-theme="dark" data-sitekey="{{$field.CaptchaSiteKey}}"></div>
+				{{else if eq $field.Type "radio"}}
+					{{ range $val := $field.RadioValues}}
+					<input
+						id="input_{{$field.Name}}_choice_{{$val}}"
+						name="{{$field.Name}}"
+						value="{{$val}}"
+						type="radio"
+						{{if eq $val $field.DefaultValue}}checked="checked"{{end}}/>
+					<label for="input_{{$field.Name}}_choice_{{$val}}">{{$val}}</label><br/>
+					{{ end }}
+				{{else if eq $field.Type "description"}}
+					{{$field.DefaultValue}}
+				{{end}}
+				{{if ne $field.Description ""}}
+					<div>
+						{{$field.Description}}
+					</div>
+				{{end}}
+			{{end}}
+			{{if eq .SubmitRed true}}
+				<button type="submit" class="button_red">
+					<i class="icon">send</i>
+					{{.SubmitLabel}}
+				</button>
+			{{else}}
+				<button type="submit" class="button_highlight">
+					<i class="icon">send</i>
+					{{.SubmitLabel}}
+				</button>
+			{{end}}
+		</div>
+	</form>
+	{{.PostFormHTML}}
+{{end}}
+{{define "form_page"}}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{template "meta_tags" .Title}}
+		<script>var apiEndpoint = '{{.APIEndpoint}}';</script>
+	</head>
+
+	<body>
+		<div id='body' class="body">
+			{{template "page_top" .}}
+			<header>
+				<h1>{{.Form.Title}}</h1>
+			</header>
+
+			<div id="page_content" class="page_content">
+				<br/>
+				<section>
+					{{template "form" .Form}}
+					<br/>
+				</section>
+			</div>
+			{{template "page_bottom" .}}
+		</div>
+
+		{{template "analytics"}}
+	</body>
+</html>
+{{end}}

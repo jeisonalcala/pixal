@@ -1,0 +1,13 @@
+{{ define "opengraph" }}
+
+{{ range $kv := .MetaPropRules }}
+<meta property="{{ $kv.Key }}" content="{{ $kv.Value }}" />
+{{ end }}
+{{ range $kv := .MetaNameRules }}
+<meta name="{{ $kv.Key }}" content="{{ $kv.Value }}" />
+{{ end }}
+{{ range $kv := .LinkRules }}
+<link rel="{{ $kv.Key }}" href="{{ $kv.Value }}" />
+{{ end }}
+
+{{ end }}

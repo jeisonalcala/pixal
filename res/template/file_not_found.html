@@ -1,0 +1,71 @@
+{{define "file_not_found"}}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{template "meta_tags" "404, File Not Found"}}
+	</head>
+
+	<body>
+		{{template "page_top" .}}
+		<header>
+			<h1>404, File Not Found!</h1>
+		</header>
+		<div id="page_content" class="page_content">
+			<section>
+				<p>
+					This file does not exist, or it has been removed. Possible
+					reasons for this are:
+				</p>
+				<ul>
+					<li>
+						The file has not been viewed for 120 days and has expired
+					</li>
+					<li>
+						The person who uploaded the file has deleted it
+					</li>
+				</ul>
+				<p>
+					I'm sorry for the inconvenience.
+				</p>
+			</section>
+		</div>
+		{{template "page_bottom" .}}
+		{{template "analytics"}}
+	</body>
+</html>
+{{end}}
+{{define "list_not_found"}}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{template "meta_tags" "404, List Not Found"}}
+	</head>
+
+	<body>
+		{{template "page_top" .}}
+		<header>
+			<h1>404, List Not Found!</h1>
+		</header>
+		<div id="page_content" class="page_content">
+			<section>
+				<p>
+					This list does not exist, or it has been removed. Possible
+					reasons for this are:
+				</p>
+				<ul>
+					<li>
+						All files in this list have not been viewed for 120 days and
+						have expired
+					</li>
+					<li>
+						The person who created the list has deleted it
+					</li>
+				</ul>
+				<p>
+					I'm sorry for the inconvenience.
+				</p>
+			</section>
+		</div>
+		{{template "page_bottom" .}}
+		{{template "analytics"}}
+	</body>
+</html>
+{{end}}

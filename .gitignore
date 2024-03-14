@@ -1,0 +1,5 @@
+.vscode
+main
+pdwebconf.toml
+svelte/node_modules
+res/static/svelte/*

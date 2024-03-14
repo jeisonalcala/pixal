@@ -1,0 +1,87 @@
+{{define "menu"}}
+<button id="button_toggle_navigation" class="button_toggle_navigation icon" onclick="toggleMenu();">
+	menu
+</button>
+<nav id="page_navigation" class="page_navigation">
+	<a href="/#">Home</a>
+	<a href="/#pro">Subscriptions</a>
+	<a href="/#prepaid">For creators</a>
+	<hr />
+	{{if .Authenticated}}
+		<a href="/user">{{.User.Username}}</a>
+		<a href="/user/filemanager#files">My Files</a>
+		<a href="/user/filemanager#lists">My Albums</a>
+		{{if .User.Subscription.FilesystemAccess}}
+			<a href="/d/me">Filesystem</a>
+		{{end}}
+		{{if .User.IsAdmin}}
+			<a href="/admin">Admin Panel</a>
+		{{end}}
+		<a href="/logout">Log out</a>
+	{{else}}
+		<a href="/login">Login</a>
+		<a href="/register">Register</a>
+		<a href="/history">Upload History</a>
+	{{end}}
+	<hr />
+	<a href="/about">About</a>
+	<a href="/apps">Apps</a>
+	<a href="/appearance">Theme</a>
+	<a href="/speedtest">Speedtest</a>
+	<a href="/api">API</a>
+	<a href="/filesystem">Filesystem Guide</a>
+	<a href="/acknowledgements">Acknowledgements</a>
+	<a href="/abuse">DMCA and abuse</a>
+	<a href="https://stats.uptimerobot.com/p9v2ktzyjm" target="_blank">Server Status</a>
+</nav>
+<script>
+function toggleMenu() {
+	var nav  = document.getElementById("page_navigation");
+	var body = document.getElementById("page_body");
+	if (nav.offsetLeft === 0) {
+		// Menu is visible, hide it
+		nav.style.left = -nav.offsetWidth + "px";
+		body.style.marginLeft = "0";
+	} else {
+		// Menu is hidden, show it
+		nav.style.left = "0";
+		body.style.marginLeft = nav.offsetWidth + "px";
+	}
+}
+function resetMenu() {
+	document.getElementById("page_navigation").style.left = "";
+	document.getElementById("page_body").style.marginLeft = "";
+}
+</script>
+{{end}}
+
+{{define "footer"}}
+<footer>
+	<div class="footer_content">
+		<div style="display: inline-block; margin: 0 8px;">
+			Pixeldrain is a product by <a href="//fornaxian.tech" target="_blank">Fornaxian Technologies</a>
+		</div>
+		<div style="display: inline-block; margin: 0 8px;">
+			<a href="https://www.patreon.com/pixeldrain" target="_blank">{{template `patreon.svg` .}} Patreon</a> |
+			<a href="https://twitter.com/Fornax96" target="_blank">{{template `twitter.svg` .}} Twitter</a> |
+			<a href="https://reddit.com/r/pixeldrain" target="_blank">{{template `reddit.svg` .}} Reddit</a> |
+			<a href="https://github.com/Fornaxian" target="_blank">{{template `github.svg` .}} GitHub</a> |
+			<a href="https://mastodon.social/web/@fornax" target="_blank">{{template `mastodon.svg` .}} Mastodon</a>
+		</div>
+		<br/>
+		<span class="small_footer_text" style="font-size: .75em; line-height: .75em;">
+			page rendered by {{.Hostname}}
+		</span>
+	</div>
+</footer>
+{{end}}
+
+{{define "page_top"}}
+{{template "menu" .}}
+<div id="page_body" class="page_body">
+{{end}}
+
+{{define "page_bottom"}}
+{{template "footer" .}}
+</div>
+{{end}}

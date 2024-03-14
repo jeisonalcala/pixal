@@ -1,0 +1,20 @@
+{{define "user_home"}}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{template "meta_tags" .User.Username }}
+
+		<script>
+		window.api_endpoint = '{{.APIEndpoint}}';
+		window.user = {{.User}};
+		window.server_hostname = "{{.Hostname}}";
+		</script>
+		<script defer src='/res/svelte/user_home.js?v{{cacheID}}'></script>
+	</head>
+
+	<body>
+		{{template "menu" .}}
+		<div id="page_body" class="page_body"></div>
+		{{template "analytics"}}
+	</body>
+</html>
+{{end}}
